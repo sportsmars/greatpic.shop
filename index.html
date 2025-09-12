@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片工具箱 - 一站式批量图片处理平台</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/i18next/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next/jquery-i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-http-backend/i18nextHttpBackend.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e6fff;        /* 主色调 - 冷静蓝 */
+            --secondary: #00c6c4;       /* 点缀色 - 活力青 */
+            --accent: #ff9a3d;          /* 提醒色 - 暖橙 */
+            --dark: #1f2937;            /* 深灰 */
+            --light: #f7f9fc;           /* 浅灰背景 */
+            --gray: #9ca3af;            /* 辅助文字 */
+            --danger: #ef4444;          /* 危险色 */
+            --warning: #f59e0b;         /* 警告色 */
+            --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部样式 */
+        header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 2px 2px rgba(30, 111, 255, 0.2));
+        }
+
+        /* 导航样式 */
+        nav {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 111, 255, 0.25);
+            border-color: transparent;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 111, 255, 0.25);
+            border-color: transparent;
+        }
+
+        /* 主要内容区域 */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            color: var(--dark);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        /* 工具卡片网格 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .tool-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            border-color: rgba(30, 111, 255, 0.2);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(30, 111, 255, 0.2);
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .tool-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .tool-features {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--gray);
+            width: 100%;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-features li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .tool-features li::before {
+            content: "✓";
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .tool-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+            font-size: 1rem;
+            text-decoration: none;
+            display: block;
+            box-shadow: 0 4px 10px rgba(30, 111, 255, 0.2);
+        }
+
+        .tool-action:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 198, 196, 0.25);
+        }
+
+        /* 页脚 */
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--dark);
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .tool-card {
+                padding: 1.5rem;
+            }
+            
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tool-icon {
+                font-size: 2rem;
+                width: 70px;
+                height: 70px;
+            }
+            
+            .tool-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+        .tool-card:nth-child(7) { animation-delay: 0.7s; }
+        .tool-card:nth-child(8) { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-toolbox"></i>
+                    <span data-i18n="title">图片工具箱</span>
+                </a>
+                <div class="lang-switcher">
+                    <button onclick="changeLanguage('zh-CN')">简体中文</button>
+                    <button onclick="changeLanguage('en')">English</button>
+                </div>
+                <nav>
+                    <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> <span data-i18n="nav.home">首页</span></a>
+                    <a href="pages/crop.html" class="nav-btn"><i class="fas fa-crop-alt"></i> <span data-i18n="nav.crop">裁剪</span></a>
+                    <a href="pages/rotate.html" class="nav-btn"><i class="fas fa-sync"></i> <span data-i18n="nav.rotate">旋转</span></a>
+                    <a href="pages/resize.html" class="nav-btn"><i class="fas fa-compress-arrows-alt"></i> <span data-i18n="nav.resize">调整压缩</span></a>
+                    <a href="pages/color.html" class="nav-btn"><i class="fas fa-palette"></i> <span data-i18n="nav.color">色彩调整</span></a>
+                    <a href="pages/filter.html" class="nav-btn"><i class="fas fa-magic"></i> <span data-i18n="nav.filter">滤镜效果</span></a>
+                    <a href="pages/convert.html" class="nav-btn"><i class="fas fa-exchange-alt"></i> <span data-i18n="nav.convert">格式转换</span></a>
+                    <a href="pages/frame.html" class="nav-btn"><i class="fas fa-border-style"></i> <span data-i18n="nav.frame">边框圆角</span></a>
+                    <a href="pages/rename.html" class="nav-btn"><i class="fas fa-signature"></i> <span data-i18n="nav.rename">批量重命名</span></a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 data-i18n="hero.title">一站式批量图片处理平台</h1>
+                <p data-i18n="hero.subtitle">专业的在线图片处理工具，无需安装软件，直接在浏览器中使用。支持批量处理，高效便捷。</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="tools-grid">
+                <!-- 裁剪 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-crop-alt"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.crop.title">图片裁剪</h3>
+                    <p class="tool-description" data-i18n="tools.crop.description">精确裁剪图片，支持自由比例和预设比例，批量处理多张图片</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.crop.feature1">支持多种比例预设</li>
+                        <li data-i18n="tools.crop.feature2">自由裁剪模式</li>
+                        <li data-i18n="tools.crop.feature3">批量处理功能</li>
+                    </ul>
+                    <a href="pages/crop.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 旋转 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.rotate.title">图片旋转</h3>
+                    <p class="tool-description" data-i18n="tools.rotate.description">任意角度旋转图片，支持90度/180度快速旋转，保持图片质量</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.rotate.feature1">任意角度旋转</li>
+                        <li data-i18n="tools.rotate.feature2">快速90°/180°旋转</li>
+                        <li data-i18n="tools.rotate.feature3">保持图片质量</li>
+                    </ul>
+                    <a href="pages/rotate.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 调整压缩 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.resize.title">调整压缩</h3>
+                    <p class="tool-description" data-i18n="tools.resize.description">调整图片尺寸并压缩，保持清晰度减小文件大小，优化加载速度</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.resize.feature1">自定义尺寸与压缩率</li>
+                        <li data-i18n="tools.resize.feature2">支持多种格式</li>
+                        <li data-i18n="tools.resize.feature3">实时预览效果</li>
+                    </ul>
+                    <a href="pages/resize.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 色彩调整 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.color.title">色彩调整</h3>
+                    <p class="tool-description" data-i18n="tools.color.description">调整亮度、对比度和饱和度，增强图片视觉效果</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.color.feature1">实时预览效果</li>
+                        <li data-i18n="tools.color.feature2">精确数值控制</li>
+                        <li data-i18n="tools.color.feature3">一键重置功能</li>
+                    </ul>
+                    <a href="pages/color.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 滤镜效果 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.filter.title">滤镜效果</h3>
+                    <p class="tool-description" data-i18n="tools.filter.description">15种精美滤镜，一键美化图片，提升视觉吸引力</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.filter.feature1">多种滤镜风格</li>
+                        <li data-i18n="tools.filter.feature2">实时预览效果</li>
+                        <li data-i18n="tools.filter.feature3">批量应用功能</li>
+                    </ul>
+                    <a href="pages/filter.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 格式转换 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.convert.title">格式转换</h3>
+                    <p class="tool-description" data-i18n="tools.convert.description">支持JPG、PNG、WebP等多种格式互转，满足不同场景需求</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.convert.feature1">支持主流格式</li>
+                        <li data-i18n="tools.convert.feature2">保持图片质量</li>
+                        <li data-i18n="tools.convert.feature3">批量转换功能</li>
+                    </ul>
+                    <a href="pages/convert.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 边框圆角 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-border-style"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.frame.title">边框圆角</h3>
+                    <p class="tool-description" data-i18n="tools.frame.description">为图片添加圆角或自定义边框效果，增强设计感</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.frame.feature1">自定义圆角半径</li>
+                        <li data-i18n="tools.frame.feature2">支持边框样式设置</li>
+                        <li data-i18n="tools.frame.feature3">实时预览效果</li>
+                    </ul>
+                    <a href="pages/frame.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+
+                <!-- 批量重命名 -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-signature"></i>
+                    </div>
+                    <h3 class="tool-title" data-i18n="tools.rename.title">批量重命名</h3>
+                    <p class="tool-description" data-i18n="tools.rename.description">批量重命名图片文件，支持自定义命名规则和序号</p>
+                    <ul class="tool-features">
+                        <li data-i18n="tools.rename.feature1">自定义命名模板</li>
+                        <li data-i18n="tools.rename.feature2">序号自动生成</li>
+                        <li data-i18n="tools.rename.feature3">批量处理功能</li>
+                    </ul>
+                    <a href="pages/rename.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-i18n="footer.copyright">© 2025 图片工具箱 - 专业的在线图片处理平台</p>
+            <p><span data-i18n="footer.contact">如有任何问题或建议，请联系：</span> <a href="mailto:sportsmars2022@gmail.com">sportsmars2022@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // 导航按钮点击效果
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // 添加滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.9)';
+                header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.7)';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            }
+        });
+
+        // 设置当前页面导航激活状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('href') === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 首页链接特殊处理
+            if (currentPage === 'index.html' || currentPage === '') {
+                document.querySelector('.nav-btn[href="index.html"]').classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
