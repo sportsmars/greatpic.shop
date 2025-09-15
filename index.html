@@ -362,166 +362,23 @@
             <div class="header-content">
                 <a href="index.html" class="logo">
                     <i class="fas fa-toolbox"></i>
-                    <span data-i18n="title">图片工具箱</span>
+                    <span data-i18n="title">Nothing</span>
                 </a>
                 <div class="lang-switcher">
                     <button onclick="changeLanguage('zh-CN')">简体中文</button>
                     <button onclick="changeLanguage('en')">English</button>
                 </div>
                 <nav>
-                    <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> <span data-i18n="nav.home">首页</span></a>
-                    <a href="pages/crop.html" class="nav-btn"><i class="fas fa-crop-alt"></i> <span data-i18n="nav.crop">裁剪</span></a>
-                    <a href="pages/rotate.html" class="nav-btn"><i class="fas fa-sync"></i> <span data-i18n="nav.rotate">旋转</span></a>
-                    <a href="pages/resize.html" class="nav-btn"><i class="fas fa-compress-arrows-alt"></i> <span data-i18n="nav.resize">调整压缩</span></a>
-                    <a href="pages/color.html" class="nav-btn"><i class="fas fa-palette"></i> <span data-i18n="nav.color">色彩调整</span></a>
-                    <a href="pages/filter.html" class="nav-btn"><i class="fas fa-magic"></i> <span data-i18n="nav.filter">滤镜效果</span></a>
-                    <a href="pages/convert.html" class="nav-btn"><i class="fas fa-exchange-alt"></i> <span data-i18n="nav.convert">格式转换</span></a>
-                    <a href="pages/frame.html" class="nav-btn"><i class="fas fa-border-style"></i> <span data-i18n="nav.frame">边框圆角</span></a>
-                    <a href="pages/rename.html" class="nav-btn"><i class="fas fa-signature"></i> <span data-i18n="nav.rename">批量重命名</span></a>
+                   
                 </nav>
             </div>
         </div>
     </header>
 
     <main>
-        <section class="hero">
-            <div class="container">
-                <h1 data-i18n="hero.title">一站式批量图片处理平台</h1>
-                <p data-i18n="hero.subtitle">专业的在线图片处理工具，无需安装软件，直接在浏览器中使用。支持批量处理，高效便捷。</p>
-            </div>
-        </section>
+       
 
-        <section class="container">
-            <div class="tools-grid">
-                <!-- 裁剪 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-crop-alt"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.crop.title">图片裁剪</h3>
-                    <p class="tool-description" data-i18n="tools.crop.description">精确裁剪图片，支持自由比例和预设比例，批量处理多张图片</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.crop.feature1">支持多种比例预设</li>
-                        <li data-i18n="tools.crop.feature2">自由裁剪模式</li>
-                        <li data-i18n="tools.crop.feature3">批量处理功能</li>
-                    </ul>
-                    <a href="pages/crop.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 旋转 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-sync"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.rotate.title">图片旋转</h3>
-                    <p class="tool-description" data-i18n="tools.rotate.description">任意角度旋转图片，支持90度/180度快速旋转，保持图片质量</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.rotate.feature1">任意角度旋转</li>
-                        <li data-i18n="tools.rotate.feature2">快速90°/180°旋转</li>
-                        <li data-i18n="tools.rotate.feature3">保持图片质量</li>
-                    </ul>
-                    <a href="pages/rotate.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 调整压缩 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-compress-arrows-alt"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.resize.title">调整压缩</h3>
-                    <p class="tool-description" data-i18n="tools.resize.description">调整图片尺寸并压缩，保持清晰度减小文件大小，优化加载速度</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.resize.feature1">自定义尺寸与压缩率</li>
-                        <li data-i18n="tools.resize.feature2">支持多种格式</li>
-                        <li data-i18n="tools.resize.feature3">实时预览效果</li>
-                    </ul>
-                    <a href="pages/resize.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 色彩调整 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.color.title">色彩调整</h3>
-                    <p class="tool-description" data-i18n="tools.color.description">调整亮度、对比度和饱和度，增强图片视觉效果</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.color.feature1">实时预览效果</li>
-                        <li data-i18n="tools.color.feature2">精确数值控制</li>
-                        <li data-i18n="tools.color.feature3">一键重置功能</li>
-                    </ul>
-                    <a href="pages/color.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 滤镜效果 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.filter.title">滤镜效果</h3>
-                    <p class="tool-description" data-i18n="tools.filter.description">15种精美滤镜，一键美化图片，提升视觉吸引力</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.filter.feature1">多种滤镜风格</li>
-                        <li data-i18n="tools.filter.feature2">实时预览效果</li>
-                        <li data-i18n="tools.filter.feature3">批量应用功能</li>
-                    </ul>
-                    <a href="pages/filter.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 格式转换 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.convert.title">格式转换</h3>
-                    <p class="tool-description" data-i18n="tools.convert.description">支持JPG、PNG、WebP等多种格式互转，满足不同场景需求</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.convert.feature1">支持主流格式</li>
-                        <li data-i18n="tools.convert.feature2">保持图片质量</li>
-                        <li data-i18n="tools.convert.feature3">批量转换功能</li>
-                    </ul>
-                    <a href="pages/convert.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 边框圆角 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-border-style"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.frame.title">边框圆角</h3>
-                    <p class="tool-description" data-i18n="tools.frame.description">为图片添加圆角或自定义边框效果，增强设计感</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.frame.feature1">自定义圆角半径</li>
-                        <li data-i18n="tools.frame.feature2">支持边框样式设置</li>
-                        <li data-i18n="tools.frame.feature3">实时预览效果</li>
-                    </ul>
-                    <a href="pages/frame.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-
-                <!-- 批量重命名 -->
-                <div class="tool-card">
-                    <div class="tool-icon">
-                        <i class="fas fa-signature"></i>
-                    </div>
-                    <h3 class="tool-title" data-i18n="tools.rename.title">批量重命名</h3>
-                    <p class="tool-description" data-i18n="tools.rename.description">批量重命名图片文件，支持自定义命名规则和序号</p>
-                    <ul class="tool-features">
-                        <li data-i18n="tools.rename.feature1">自定义命名模板</li>
-                        <li data-i18n="tools.rename.feature2">序号自动生成</li>
-                        <li data-i18n="tools.rename.feature3">批量处理功能</li>
-                    </ul>
-                    <a href="pages/rename.html" class="tool-action" target="_blank" data-i18n="tools.action">使用工具</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p data-i18n="footer.copyright">© 2025 图片工具箱 - 专业的在线图片处理平台</p>
-            <p><span data-i18n="footer.contact">如有任何问题或建议，请联系：</span> <a href="mailto:sportsmars2022@gmail.com">sportsmars2022@gmail.com</a></p>
-        </div>
-    </footer>
+    
 
     <script>
         // 导航按钮点击效果
@@ -563,4 +420,5 @@
         });
     </script>
 </body>
+
 </html>
